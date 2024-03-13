@@ -6,12 +6,19 @@
 
 :root {
   --off-white: #efefef;
-  --primary-yellow: #ffd600;
-  --primary-orange: #f6a006;
-  --secondary-yellow: #deca06;
-  --secondary-brown: #7e4e25;
+  --primary: #0032a0;
+  --secondary: #3ad4a7;
 }
 
 body {
   font-family: "Poppins", sans-serif !important;
+}
+
+.span-text-default {
+  color: var(--primary);
+}
+
+/* TEXTS */
+.text-bold {
+  font-weight: bold;
 }
