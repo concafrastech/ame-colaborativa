@@ -10,7 +10,7 @@
 #navbar {
   text-align: center;
   border-bottom: 1px solid #000;
-  background-color: var(--off-white);
+  background-color: #fff;
 }
 
 #navbar img {
