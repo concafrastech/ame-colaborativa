@@ -1,0 +1,33 @@
+#navbar {
+  text-align: center;
+  border-bottom: 1px solid #000;
+  background-color: var(--off-white);
+}
+
+#navbar img {
+  max-width: 10rem;
+}
+
+#navbar div:first-child {
+  text-align: left;
+}
+
+#navbar div:last-child {
+  text-align: right;
+}
+
+#navbar > div {
+  margin: 0.1rem 0;
+}
+
+.logo-concafras {
+  margin: 1rem 2rem;
+}
+
+.logo-ame {
+  margin: 1rem 2rem;
+}
+
+/* BREAKPOINTS */
+@media only screen and (max-width: 576px) {
+}
