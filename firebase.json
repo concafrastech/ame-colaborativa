@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "ame-colaborativa",
+    "public": "dist/ame-colaborativa",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
