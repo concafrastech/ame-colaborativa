@@ -85,4 +85,23 @@
       </span>
     </div>
   </div>
+  <div class="row">
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">
+        Quantas cotas 10 gostaria de comprar?
+      </span>
+      <input type="number" pInputText placeholder="Quantidade" [(ngModel)]="this.items[0].quantity" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <button
+        pButton
+        pRipple
+        label="Finalizar"
+        class="p-button-success w-100"
+        (click)="onSubmit()"
+      ></button>
+    </div>
+  </div>
 </div>

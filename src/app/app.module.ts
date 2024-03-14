@@ -2,11 +2,15 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 // PrimeNg
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
 import { InputMaskModule } from "primeng/inputmask";
+import { FieldsetModule } from "primeng/fieldset";
+import { RippleModule } from "primeng/ripple";
 
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./pages/home/home.component";
@@ -21,8 +25,12 @@ import { PaymentsMethodsComponent } from "./components/payments-methods/payments
     InputTextModule,
     FormsModule,
     InputMaskModule,
+    FieldsetModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RippleModule,
   ],
-  providers: [],
+  providers: [HttpClient],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
