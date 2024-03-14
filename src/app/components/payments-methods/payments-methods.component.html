@@ -1,0 +1,88 @@
+<div id="payments-methods" class="text-center mt-5">
+  <h2 class="text-color-primary">Escolha o meio de pagamento:</h2>
+  <div class="row mt-4">
+    <div class="col-md-4 col-sm-12">
+      <button
+        pButton
+        pRipple
+        label="PIX"
+        class="p-button-outlined p-button-success w-100"
+        (click)="setTypePayment('pix')"
+      ></button>
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <button
+        pButton
+        pRipple
+        label="Cartão de Crédito"
+        class="p-button-outlined p-button-success w-100"
+        (click)="setTypePayment('credit')"
+      ></button>
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <button
+        pButton
+        pRipple
+        label="Boleto"
+        class="p-button-outlined p-button-success w-100"
+        (click)="setTypePayment('ticket')"
+      ></button>
+    </div>
+  </div>
+</div>
+<div id="payments-contents" *ngIf="typePayment != ''" class="mt-5">
+  <div class="row">
+    <div class="col-md-12 col-dm-12">
+      <span class="p-float-label">
+        <input
+          id="fullnameCustomer"
+          type="text"
+          class="w-100"
+          pInputText
+          [(ngModel)]="this.customer.name"
+        />
+        <label htmlFor="fullnameCustomer">Nome completo</label>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <span class="p-float-label">
+        <input
+          id="emailCustomer"
+          type="text"
+          class="w-100"
+          pInputText
+          [(ngModel)]="this.customer.email"
+        />
+        <label htmlFor="emailCustomer">E-mail</label>
+      </span>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <span class="p-float-label">
+        <input
+          id="taxIdCustomer"
+          type="text"
+          class="w-100"
+          pInputText
+          [(ngModel)]="this.customer.tax_id"
+        />
+        <label htmlFor="taxIdCustomer">CPF ou CNPJ</label>
+      </span>
+    </div>
+  </div>
+  <div *ngFor="let phone of this.customer.phones; index as i" class="row">
+    <div class="col-md-12 col-sm-12">
+      <span class="p-float-label">
+        <p-inputMask
+          id="numberPhoneCustomer{{ i }}"
+          type="text"
+          styleClass="w-100"
+          mask="+99 (99) 99999-9999"
+          [(ngModel)]="phone.number"
+        ></p-inputMask>
+        <label htmlFor="numberPhoneCustomer{{ i }}">Telefone</label>
+      </span>
+    </div>
+  </div>
+</div>
