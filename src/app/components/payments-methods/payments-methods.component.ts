@@ -3,12 +3,13 @@ import { Customer } from "../../models/Customer";
 import { uid } from "uid";
 import { OrdersService } from "../../services/orders.service";
 import { MessageService } from "primeng/api";
+import { CheckoutsService } from "../../services/checkouts.service";
 
 @Component({
   selector: "app-payments-methods",
   templateUrl: "./payments-methods.component.html",
   styleUrls: ["./payments-methods.component.css"],
-  providers: [OrdersService, MessageService],
+  providers: [OrdersService, CheckoutsService, MessageService],
 })
 export class PaymentsMethodsComponent implements OnInit {
   /**
@@ -22,10 +23,11 @@ export class PaymentsMethodsComponent implements OnInit {
 
   constructor(
     private _ordersService: OrdersService,
+    private _checkoutsService: CheckoutsService,
     private _messageService: MessageService,
   ) {
     this.typePayment = "";
-    this.amount = 195;
+    this.amount = 19500;
     this.customer = {
       name: "",
       email: "",
@@ -59,25 +61,53 @@ export class PaymentsMethodsComponent implements OnInit {
 
     if (isValidated) {
       this.splitNumber();
-      let order = {
+      let checkout = {
         reference_id: uid(),
         customer: this.customer,
         items: this.items,
-        qr_code: [
+        additional_amount: 0,
+        discount_amount: 0,
+        payment_methods: [
           {
-            amount: {
-              value: this.getTotalValue(),
-            },
+            type: "credit_card",
+            brands: ["mastercard"],
+          },
+          {
+            type: "credit_card",
+            brands: ["visa"],
+          },
+          {
+            type: "PIX",
+          },
+          {
+            type: "BOLETO",
           },
         ],
-        shipping: {},
-        billing: {},
-        notification_urls: [],
+        payment_methods_configs: [
+          {
+            type: "credit_card",
+            brands: ["mastercard"],
+            config_options: [
+              {
+                option: "installments_limit",
+                value: "1",
+              },
+            ],
+          },
+        ],
+        redirect_url: "https://ame-colaborativa.web.app/",
+        return_url: "https://ame-colaborativa.web.app/",
+        notification_urls: ["https://ame-colaborativa.web.app/"],
       };
 
-      this._ordersService.createOrder(order).subscribe({
-        next: (response) => {
-          console.log(response);
+      this._checkoutsService.createCheckout(checkout).subscribe({
+        next: (response: any) => {
+          let data = JSON.parse(response.data);
+          data.links.forEach((link: any) => {
+            if (link.rel == "PAY") {
+              window.open(link.href, "_blank");
+            }
+          });
         },
         error: () => {},
       });
