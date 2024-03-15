@@ -1,20 +1,38 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppRoutingModule } from "./app-routing.module";
+import { FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
+// PrimeNg
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
+import { InputMaskModule } from "primeng/inputmask";
+import { FieldsetModule } from "primeng/fieldset";
+import { RippleModule } from "primeng/ripple";
+import { MessagesModule } from "primeng/messages";
+
+import { AppComponent } from "./app.component";
+import { HomeComponent } from "./pages/home/home.component";
+import { PaymentsMethodsComponent } from "./components/payments-methods/payments-methods.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent
-  ],
+  declarations: [AppComponent, HomeComponent, PaymentsMethodsComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ButtonModule,
+    InputTextModule,
+    FormsModule,
+    InputMaskModule,
+    FieldsetModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RippleModule,
+    MessagesModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [HttpClient],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -9,7 +9,7 @@ export class HomeComponent implements OnInit {
   projectName: string;
 
   constructor() {
-    this.projectName = "Nome do Projeto";
+    this.projectName = "Bons Frutos - Missão Divulu";
   }
 
   ngOnInit() {}

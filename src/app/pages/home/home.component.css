@@ -1,16 +1,10 @@
-/*div[id]:first-child {*/
-/*  margin: 0;*/
-/*  padding: 0;*/
-/*}*/
-
-/*div[id] {*/
-/*  padding: 2rem 0;*/
-/*}*/
-
 #navbar {
   text-align: center;
   border-bottom: 1px solid #000;
   background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 #navbar img {
@@ -39,4 +33,7 @@
 
 /* BREAKPOINTS */
 @media only screen and (max-width: 576px) {
+  #navbar {
+    justify-content: center;
+  }
 }
