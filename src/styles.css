@@ -6,7 +6,7 @@
 
 :root {
   --off-white: #efefef;
-  --primary: #0032a0;
+  --primary: #50a7b1;
   --secondary: #3ad4a7;
 }
 
@@ -25,4 +25,16 @@ body {
 
 .text-center {
   text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-title-h1 {
+  font-size: 34px;
 }

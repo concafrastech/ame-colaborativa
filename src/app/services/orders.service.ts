@@ -4,11 +4,13 @@ import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 
 @Injectable()
-export class PagseguroService {
+export class OrdersService {
+  apiFunctions: string;
   apiPagseguro: string;
   tokenPagseguro: string;
 
   constructor(private _http: HttpClient) {
+    this.apiFunctions = environment.apiFunctions;
     this.apiPagseguro = environment.apiPagSeguro;
     this.tokenPagseguro = environment.tokenPagSeguro;
   }
@@ -17,13 +19,9 @@ export class PagseguroService {
     console.log(order);
 
     let headers = {
-      Authorization: `Bearer ${this.tokenPagseguro}`,
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,POST,OPTIONS,DELETE,PUT",
     };
 
-    // TODO: fazer chamada dessa requisição em uma function
-    return this._http.post(`${this.apiPagseguro}/orders`, order, { headers });
+    return this._http.post(`${this.apiFunctions}/orders`, order, { headers });
   }
 }

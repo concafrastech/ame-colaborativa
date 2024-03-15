@@ -1,4 +1,7 @@
 <div id="payments-methods" class="text-center mt-5">
+  <div class="text-left">
+    <p-messages></p-messages>
+  </div>
   <h2 class="text-color-primary">Escolha o meio de pagamento:</h2>
   <div class="row mt-4">
     <div class="col-md-4 col-sm-12">
@@ -64,6 +67,7 @@
           id="taxIdCustomer"
           type="text"
           class="w-100"
+          placeholder="Digite CPF ou CNPJ sem pontuação"
           pInputText
           [(ngModel)]="this.customer.tax_id"
         />
@@ -90,7 +94,12 @@
       <span class="p-inputgroup-addon">
         Quantas cotas 10 gostaria de comprar?
       </span>
-      <input type="number" pInputText placeholder="Quantidade" [(ngModel)]="this.items[0].quantity" />
+      <input
+        type="number"
+        pInputText
+        placeholder="Quantidade"
+        [(ngModel)]="this.items[0].quantity"
+      />
     </div>
   </div>
   <div class="row">
