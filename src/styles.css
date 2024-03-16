@@ -57,7 +57,11 @@ body {
 .text-color-orange {
   color: var(--orange);
 }
+
 .text-color-red {
   color: var(--red);
 }
 
+.text-color-white {
+  color: #fff;
+}
