@@ -2,35 +2,60 @@
   <div class="text-left">
     <p-messages></p-messages>
   </div>
-  <h2 class="text-color-primary">Escolha o meio de pagamento:</h2>
-  <div class="row mt-4">
-    <div class="col-md-4 col-sm-12">
-      <button
-        pButton
-        pRipple
-        label="PIX"
-        class="p-button-outlined p-button-success w-100"
-        (click)="setTypePayment('pix')"
-      ></button>
-    </div>
-    <div class="col-md-4 col-sm-12">
-      <button
-        pButton
-        pRipple
-        label="Cartão de Crédito"
-        class="p-button-outlined p-button-success w-100"
-        (click)="setTypePayment('credit')"
-      ></button>
-    </div>
-    <div class="col-md-4 col-sm-12">
-      <button
-        pButton
-        pRipple
-        label="Boleto"
-        class="p-button-outlined p-button-success w-100"
-        (click)="setTypePayment('ticket')"
-      ></button>
-    </div>
+  <h2 class="text-color-orange">Como prefere ajudar?</h2>
+  <div id="typeProduct" class="mt-5">
+    <p-card
+      header="Cota 10"
+      [style]="{ width: '360px', 'background-color': '#E4B35BFF' }"
+      styleClass="text-color-green"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="assets/imgs/projeto_africa.jpg"
+        />
+      </ng-template>
+      <p class="text-center text-font-20">
+        <strong> Envie 10 livros e 10 revistas espíritas para a África. </strong
+        ><br />Valor fixo <br />
+        R$195,00
+      </p>
+      <ng-template pTemplate="footer">
+        <hr />
+        <p-button
+          label="Quero ajudar"
+          icon="pi pi-check"
+          styleClass="w-100"
+          [style]="{ 'background-color': '#51725f', 'border-color': '#51725f' }"
+        ></p-button>
+      </ng-template>
+    </p-card>
+    <p-card
+      header="Valor avulso"
+      [style]="{ width: '360px', 'background-color': '#51725f' }"
+      styleClass="text-color-orange"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="Card"
+          src="assets/imgs/projeto_africa.jpg"
+        />
+      </ng-template>
+      <p class="text-center text-font-20">
+        <strong> Contribua com o valor que puder. </strong><br />A partir de
+        <br />
+        R$30,00
+      </p>
+      <ng-template pTemplate="footer">
+        <hr />
+        <p-button
+          label="Quero ajudar"
+          icon="pi pi-check"
+          styleClass="w-100"
+          [style]="{ 'background-color': '#e4b35b', 'border-color': '#e4b35b' }"
+        ></p-button>
+      </ng-template>
+    </p-card>
   </div>
 </div>
 <div id="payments-contents" *ngIf="typePayment != ''" class="mt-5">
