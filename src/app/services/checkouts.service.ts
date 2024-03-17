@@ -6,9 +6,11 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class CheckoutsService {
   apiFunctions: string;
+  isProduction: boolean;
 
   constructor(private _http: HttpClient) {
     this.apiFunctions = environment.apiFunctions;
+    this.isProduction = environment.production;
   }
 
   createCheckout(checkout: any): Observable<any> {
@@ -16,7 +18,12 @@ export class CheckoutsService {
       "Content-Type": "application/json",
     };
 
-    return this._http.post(`${this.apiFunctions}/checkouts`, checkout, {
+    let body = {
+      isProduction: this.isProduction,
+      checkout,
+    };
+
+    return this._http.post(`${this.apiFunctions}/checkouts`, body, {
       headers,
     });
   }
