@@ -4,6 +4,7 @@ import { uid } from "uid";
 import { OrdersService } from "../../services/orders.service";
 import { MessageService } from "primeng/api";
 import { CheckoutsService } from "../../services/checkouts.service";
+import { ViewportScroller } from "@angular/common";
 
 @Component({
   selector: "app-payments-methods",
@@ -12,22 +13,20 @@ import { CheckoutsService } from "../../services/checkouts.service";
   providers: [OrdersService, CheckoutsService, MessageService],
 })
 export class PaymentsMethodsComponent implements OnInit {
-  /**
-   * Link doc PagSeguro:
-   * https://dev.pagbank.uol.com.br/reference/criar-pedido
-   */
-  typePayment: string;
+  typeProduct: string;
   customer: Customer;
   items: any[];
   amount: number;
+  quantity: number;
 
   constructor(
-    private _ordersService: OrdersService,
     private _checkoutsService: CheckoutsService,
     private _messageService: MessageService,
+    private _viewportScroller: ViewportScroller,
   ) {
-    this.typePayment = "";
-    this.amount = 19500;
+    this.typeProduct = "";
+    this.amount = 195;
+    this.quantity = 1;
     this.customer = {
       name: "",
       email: "",
@@ -43,9 +42,9 @@ export class PaymentsMethodsComponent implements OnInit {
     };
     this.items = [
       {
-        reference_id: "cota_10",
-        name: "Cota 10",
-        quantity: 0,
+        reference_id: "",
+        name: "",
+        quantity: this.quantity,
         unit_amount: this.amount,
       },
     ];
@@ -61,6 +60,7 @@ export class PaymentsMethodsComponent implements OnInit {
 
     if (isValidated) {
       this.splitNumber();
+      this.prepareItemsData();
       let checkout = {
         reference_id: uid(),
         customer: this.customer,
@@ -70,11 +70,7 @@ export class PaymentsMethodsComponent implements OnInit {
         payment_methods: [
           {
             type: "credit_card",
-            brands: ["mastercard"],
-          },
-          {
-            type: "credit_card",
-            brands: ["visa"],
+            brands: ["mastercard", "visa"],
           },
           {
             type: "PIX",
@@ -86,26 +82,26 @@ export class PaymentsMethodsComponent implements OnInit {
         payment_methods_configs: [
           {
             type: "credit_card",
-            brands: ["mastercard"],
+            brands: ["mastercard", "visa"],
             config_options: [
               {
                 option: "installments_limit",
-                value: "1",
+                value: "3",
               },
             ],
           },
         ],
-        redirect_url: "https://ame-colaborativa.web.app/",
-        return_url: "https://ame-colaborativa.web.app/",
-        notification_urls: ["https://ame-colaborativa.web.app/"],
+        redirect_url: "https://concafras-ame.web.app/",
+        return_url: "https://concafras-ame.web.app/",
+        notification_urls: ["https://concafras-ame.web.app/"],
       };
-
+      console.log(checkout);
       this._checkoutsService.createCheckout(checkout).subscribe({
         next: (response: any) => {
           let data = JSON.parse(response.data);
           data.links.forEach((link: any) => {
             if (link.rel == "PAY") {
-              window.open(link.href, "_blank");
+              window.open(link.href, "_self");
             }
           });
         },
@@ -113,6 +109,18 @@ export class PaymentsMethodsComponent implements OnInit {
       });
     } else {
       console.log("Algo acontece");
+    }
+  }
+
+  prepareItemsData() {
+    this.items[0].unit_amount = this.amount * 100;
+
+    if (this.typeProduct == "cota10") {
+      this.items[0].reference_id = "cota_10";
+      this.items[0].name = "Cota 10";
+    } else if (this.typeProduct == "value") {
+      this.items[0].reference_id = "value";
+      this.items[0].name = "Valor Avulso";
     }
   }
 
@@ -145,12 +153,9 @@ export class PaymentsMethodsComponent implements OnInit {
     return true;
   }
 
-  getTotalValue(): number {
-    return this.items[0].quantity * this.items[0].unit_amount;
-  }
-
-  setTypePayment(value: string): void {
-    this.typePayment = value;
+  setTypeProduct(value: string): void {
+    this.typeProduct = value;
+    this._viewportScroller.scrollToAnchor("payments-contents");
   }
 
   splitNumber(): void {

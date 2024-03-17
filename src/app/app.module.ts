@@ -12,6 +12,7 @@ import { InputMaskModule } from "primeng/inputmask";
 import { FieldsetModule } from "primeng/fieldset";
 import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
+import { CardModule } from "primeng/card";
 
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./pages/home/home.component";
@@ -31,6 +32,7 @@ import { PaymentsMethodsComponent } from "./components/payments-methods/payments
     HttpClientModule,
     RippleModule,
     MessagesModule,
+    CardModule,
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent],
