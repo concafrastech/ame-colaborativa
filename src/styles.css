@@ -12,6 +12,10 @@
   --red: #ea614a;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Poppins", sans-serif !important;
   background-color: var(--blue);

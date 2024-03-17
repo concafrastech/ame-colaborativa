@@ -2,18 +2,22 @@
   <div class="text-left">
     <p-messages></p-messages>
   </div>
-  <h1 class="text-color-orange">Como prefere ajudar?</h1>
+  <h1 class="text-color-orange title-payments-methods">Como prefere ajudar?</h1>
   <div id="typeProduct" class="mt-5">
     <p-card
       header="Cota 10"
-      [style]="{ width: '360px', 'background-color': '#E4B35BFF' }"
       styleClass="text-color-green"
+      [style]="{ width: '360px', 'background-color': '#E4B35BFF' }"
+      [ngStyle]="
+        typeProduct == 'cota10'
+          ? { opacity: 1 }
+          : typeProduct == ''
+            ? { opacity: 1 }
+            : { opacity: 0.2 }
+      "
     >
       <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="assets/imgs/projeto_africa.jpg"
-        />
+        <img alt="Card" src="assets/imgs/projeto_africa.jpg" />
       </ng-template>
       <p class="text-center text-font-20">
         <strong> Envie 10 livros e 10 revistas espíritas para a África. </strong
@@ -26,20 +30,25 @@
           label="Quero ajudar"
           icon="pi pi-check"
           styleClass="w-100"
+          (click)="setTypeProduct('cota10')"
           [style]="{ 'background-color': '#51725f', 'border-color': '#51725f' }"
         ></p-button>
       </ng-template>
     </p-card>
     <p-card
       header="Valor avulso"
-      [style]="{ width: '360px', 'background-color': '#51725f' }"
       styleClass="text-color-orange"
+      [style]="{ width: '360px', 'background-color': '#51725f' }"
+      [ngStyle]="
+        typeProduct == 'value'
+          ? { opacity: 1 }
+          : typeProduct == ''
+            ? { opacity: 1 }
+            : { opacity: 0.2 }
+      "
     >
       <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="assets/imgs/projeto_africa.jpg"
-        />
+        <img alt="Card" src="assets/imgs/projeto_africa.jpg" />
       </ng-template>
       <p class="text-center text-font-20">
         <strong> Contribua com o valor que puder. </strong><br />A partir de
@@ -53,78 +62,106 @@
           icon="pi pi-check"
           styleClass="w-100"
           [style]="{ 'background-color': '#e4b35b', 'border-color': '#e4b35b' }"
+          (click)="setTypeProduct('value')"
         ></p-button>
       </ng-template>
     </p-card>
   </div>
 </div>
-<div id="payments-contents" *ngIf="typePayment != ''" class="mt-5">
+<div id="payments-contents" *ngIf="typeProduct != ''" class="mt-5">
   <div class="row">
     <div class="col-md-12 col-dm-12">
-      <span class="p-float-label">
+      <div class="flex flex-column gap-2">
+        <label htmlFor="fullnameCustomer">Nome completo</label>
         <input
           id="fullnameCustomer"
           type="text"
           class="w-100"
-          pInputText
+          placeholder="Digite aqui..."
           [(ngModel)]="this.customer.name"
+          pInputText
         />
-        <label htmlFor="fullnameCustomer">Nome completo</label>
-      </span>
+      </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <span class="p-float-label">
+      <div class="flex flex-column gap-2">
+        <label htmlFor="emailCustomer">E-mail</label>
         <input
           id="emailCustomer"
           type="text"
           class="w-100"
-          pInputText
+          placeholder="Digite aqui..."
           [(ngModel)]="this.customer.email"
+          pInputText
         />
-        <label htmlFor="emailCustomer">E-mail</label>
-      </span>
+      </div>
     </div>
     <div class="col-md-6 col-sm-12">
-      <span class="p-float-label">
+      <div class="flex flex-column gap-2">
+        <label htmlFor="taxIdCustomer">CPF ou CNPJ</label>
         <input
           id="taxIdCustomer"
           type="text"
           class="w-100"
-          placeholder="Digite CPF ou CNPJ sem pontuação"
-          pInputText
+          placeholder="Digite aqui..."
           [(ngModel)]="this.customer.tax_id"
+          pInputText
         />
-        <label htmlFor="taxIdCustomer">CPF ou CNPJ</label>
-      </span>
+        <small id="taxIdCustomerHelp"
+          >Digite o CPF ou CNPJ <b>sem pontução</b>.</small
+        >
+      </div>
     </div>
   </div>
   <div *ngFor="let phone of this.customer.phones; index as i" class="row">
     <div class="col-md-12 col-sm-12">
-      <span class="p-float-label">
+      <div class="flex flex-column gap-2">
+        <label htmlFor="numberPhoneCustomer{{ i }}">Telefone</label>
         <p-inputMask
           id="numberPhoneCustomer{{ i }}"
           type="text"
           styleClass="w-100"
           mask="+99 (99) 99999-9999"
+          placeholder="Digite aqui..."
           [(ngModel)]="phone.number"
         ></p-inputMask>
-        <label htmlFor="numberPhoneCustomer{{ i }}">Telefone</label>
-      </span>
+      </div>
     </div>
   </div>
   <div class="row">
-    <div class="p-inputgroup">
-      <span class="p-inputgroup-addon">
-        Quantas cotas 10 gostaria de comprar?
-      </span>
-      <input
-        type="number"
-        pInputText
-        placeholder="Quantidade"
-        [(ngModel)]="this.items[0].quantity"
-      />
+    <div class="col-md-12 col-dm-12">
+      <ng-container *ngIf="typeProduct == 'cota10'; else productValue">
+        <div class="flex flex-column gap-2">
+          <label htmlFor="productCota10">Quantidade de cotas</label>
+          <input
+            id="productCota10"
+            type="number"
+            class="w-100"
+            placeholder="Digite aqui..."
+            [(ngModel)]="this.quantity"
+            pInputText
+          />
+        </div>
+      </ng-container>
+      <ng-template #productValue>
+        <div class="flex flex-column gap-2">
+          <label htmlFor="productValue">Valor avulso</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">R$</span>
+            <input
+              id="productValue"
+              type="text"
+              class="w-100"
+              placeholder="Digite aqui..."
+              [(ngModel)]="this.amount"
+              pInputText
+            />
+            <span class="p-inputgroup-addon">.00</span>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
   <div class="row">
@@ -139,3 +176,4 @@
     </div>
   </div>
 </div>
+<div class="mt-5"></div>
