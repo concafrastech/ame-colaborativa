@@ -95,7 +95,7 @@ export class PaymentsMethodsComponent implements OnInit {
         return_url: "https://concafras-ame.web.app/",
         notification_urls: ["https://concafras-ame.web.app/"],
       };
-      console.log(checkout);
+
       this._checkoutsService.createCheckout(checkout).subscribe({
         next: (response: any) => {
           let data = JSON.parse(response.data);
