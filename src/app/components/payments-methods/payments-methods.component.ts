@@ -169,6 +169,13 @@ export class PaymentsMethodsComponent implements OnInit {
 
   setTypeProduct(value: string): void {
     this.typeProduct = value;
+
+    if (this.typeProduct == "value") {
+      this.amount = 30;
+    } else {
+      this.amount = 195;
+    }
+
     this._viewportScroller.scrollToAnchor("payments-contents");
   }
 
