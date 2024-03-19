@@ -104,7 +104,11 @@ export class PaymentsMethodsComponent implements OnInit {
           let data = JSON.parse(response.data);
           data.links.forEach((link: any) => {
             if (link.rel == "PAY") {
-              window.open(link.href, "_self");
+              this._checkoutsService.successCheckout(data).subscribe({
+                next: () => {
+                  window.open(link.href, "_self");
+                },
+              });
             }
             this.isShow = false;
           });
