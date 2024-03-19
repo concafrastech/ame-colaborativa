@@ -27,4 +27,18 @@ export class CheckoutsService {
       headers,
     });
   }
+
+  successCheckout(checkoutPagseguro: any): Observable<any> {
+    let headers = {
+      "Content-Type": "application/json",
+    };
+
+    return this._http.post(
+      `${this.apiFunctions}/checkouts/success`,
+      checkoutPagseguro,
+      {
+        headers,
+      },
+    );
+  }
 }
