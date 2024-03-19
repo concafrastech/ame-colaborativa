@@ -69,3 +69,7 @@ body {
 .text-color-white {
   color: #fff;
 }
+
+.text-justify {
+  text-align: justify;
+}

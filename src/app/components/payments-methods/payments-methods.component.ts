@@ -18,6 +18,7 @@ export class PaymentsMethodsComponent implements OnInit {
   items: any[];
   amount: number;
   quantity: number;
+  isShow: boolean;
 
   constructor(
     private _checkoutsService: CheckoutsService,
@@ -27,6 +28,7 @@ export class PaymentsMethodsComponent implements OnInit {
     this.typeProduct = "";
     this.amount = 195;
     this.quantity = 1;
+    this.isShow = false;
     this.customer = {
       name: "",
       email: "",
@@ -55,6 +57,7 @@ export class PaymentsMethodsComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.isShow = true;
     this._messageService.clear();
     let isValidated = this.validateData();
 
@@ -103,12 +106,13 @@ export class PaymentsMethodsComponent implements OnInit {
             if (link.rel == "PAY") {
               window.open(link.href, "_self");
             }
+            this.isShow = false;
           });
         },
         error: () => {},
       });
     } else {
-      console.log("Algo acontece");
+      this.isShow = false;
     }
   }
 
@@ -149,6 +153,16 @@ export class PaymentsMethodsComponent implements OnInit {
           "Certifique-se de que preencheu todos os números e sem a pontuação.",
       });
       return false;
+    } else if (this.typeProduct == "value") {
+      if (this.amount < 30) {
+        this._messageService.add({
+          severity: "error",
+          summary: "Valor inválido",
+          detail:
+            "Certifique-se de que o valor inserido é superior ou igual ao mínimo.",
+        });
+        return false;
+      }
     }
     return true;
   }

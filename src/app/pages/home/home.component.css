@@ -23,12 +23,25 @@
   margin: 0.1rem 0;
 }
 
+#products-content {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
 .logo-concafras {
   margin: 1rem 2rem;
 }
 
 .logo-ame {
   margin: 1rem 2rem;
+}
+
+#about-us {
+  background-color: var(--orange);
+}
+
+.about-us-content {
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 /* BREAKPOINTS */
