@@ -39,9 +39,13 @@
   background-color: var(--orange);
 }
 
-.about-us-content {
+.about-us-content,
+.product-content {
   padding: 2rem;
-  border-radius: 1rem;
+}
+
+#project {
+  background-color: var(--green);
 }
 
 /* BREAKPOINTS */
