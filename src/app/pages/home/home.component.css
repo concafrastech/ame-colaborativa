@@ -35,8 +35,9 @@
   margin: 1rem 2rem;
 }
 
-#about-us {
+#about-us, #project {
   background-color: var(--orange);
+  padding-bottom: 1rem;
 }
 
 .about-us-content,
@@ -44,8 +45,9 @@
   padding: 2rem;
 }
 
-#project {
+#project2 {
   background-color: var(--green);
+  padding-bottom: 4rem;
 }
 
 /* BREAKPOINTS */
