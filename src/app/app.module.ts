@@ -4,6 +4,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { AppComponent } from "./app.component";
 
 // PrimeNg
 import { ButtonModule } from "primeng/button";
@@ -14,7 +15,6 @@ import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
 import { CardModule } from "primeng/card";
 
-import { AppComponent } from "./app.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { PaymentsMethodsComponent } from "./components/payments-methods/payments-methods.component";
 
