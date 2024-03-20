@@ -99,6 +99,8 @@ export class PaymentsMethodsComponent implements OnInit {
         notification_urls: ["https://concafras-ame.web.app/"],
       };
 
+      console.log(checkout);
+
       this._checkoutsService.createCheckout(checkout).subscribe({
         next: (response: any) => {
           let data = JSON.parse(response.data);
@@ -106,7 +108,7 @@ export class PaymentsMethodsComponent implements OnInit {
             if (link.rel == "PAY") {
               this._checkoutsService.successCheckout(data).subscribe({
                 next: () => {
-                  window.open(link.href, "_self");
+                  window.open(link.href, "_blank");
                 },
               });
             }
@@ -122,6 +124,7 @@ export class PaymentsMethodsComponent implements OnInit {
 
   prepareItemsData() {
     this.items[0].unit_amount = this.amount * 100;
+    this.items[0].quantity = this.quantity;
 
     if (this.typeProduct == "cota10") {
       this.items[0].reference_id = "cota_10";
