@@ -108,7 +108,7 @@ export class PaymentsMethodsComponent implements OnInit {
             if (link.rel == "PAY") {
               this._checkoutsService.successCheckout(data).subscribe({
                 next: () => {
-                  window.open(link.href, "_blank");
+                  window.open(link.href, "_self");
                 },
               });
             }
