@@ -52,9 +52,7 @@ export class PaymentsMethodsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
-    console.log("[OK] PaymentsMethodsComponent");
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     this.isShow = true;
@@ -98,8 +96,6 @@ export class PaymentsMethodsComponent implements OnInit {
         return_url: "https://concafras-ame.web.app/",
         notification_urls: ["https://concafras-ame.web.app/"],
       };
-
-      console.log(checkout);
 
       this._checkoutsService.createCheckout(checkout).subscribe({
         next: (response: any) => {
@@ -170,6 +166,13 @@ export class PaymentsMethodsComponent implements OnInit {
         });
         return false;
       }
+    } else if (this.items[0].unit_amount == null) {
+      this._messageService.add({
+        severity: "error",
+        summary: "Valor inválido",
+        detail: "Certifique-se de que o valor inserido não é vazio.",
+      });
+      return false;
     }
     return true;
   }
