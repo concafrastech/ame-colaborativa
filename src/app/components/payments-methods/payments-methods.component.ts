@@ -111,7 +111,22 @@ export class PaymentsMethodsComponent implements OnInit {
             this.isShow = false;
           });
         },
-        error: () => {},
+        error: (response: any) => {
+          let body = JSON.parse(response.error.data);
+
+          if (body.error_messages[0].error == "invalid_value") {
+            if (body.error_messages[0].parameter_name == "customer.tax_id") {
+              this._messageService.add({
+                severity: "error",
+                summary: "CPF ou CNPJ inválido",
+                detail:
+                  "Verifique se preencheu corretamente o seu CPF ou CNPJ.",
+              });
+            }
+          }
+
+          this.isShow = false;
+        },
       });
     } else {
       this.isShow = false;
