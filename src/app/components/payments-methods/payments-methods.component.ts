@@ -145,6 +145,7 @@ export class PaymentsMethodsComponent implements OnInit {
   prepareItemsData() {
     this.items[0].unit_amount = this.amount * 100;
     this.items[0].quantity = this.typeProduct == "cota10" ? this.quantity : 1;
+    this.customer.email = this.customer.email.trim();
 
     if (this.typeProduct == "cota10") {
       this.items[0].reference_id = "cota_10";
