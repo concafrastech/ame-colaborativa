@@ -36,7 +36,8 @@
 }
 
 #about-us,
-#project {
+#project,
+#timeline {
   background-color: var(--orange);
   padding-bottom: 1rem;
 }
@@ -63,6 +64,14 @@ img.banner_project_1 {
   content: url("/assets/imgs/banner_projeto_1.jpeg");
 }
 
+img.banner_timeline {
+  content: url("/assets/imgs/banne_timeline.jpg");
+}
+
+#carouselBannersProject2 {
+  padding-top: 1rem;
+}
+
 /* BREAKPOINTS */
 @media only screen and (max-width: 576px) {
   #navbar {
@@ -83,5 +92,9 @@ img.banner_project_1 {
 
   img.banner_project_1 {
     content: url("/assets/imgs/banner_projeto_mobile.jpeg");
+  }
+
+  img.banner_timeline {
+    content: url("/assets/imgs/banner_timeline_mobile.jpg");
   }
 }
