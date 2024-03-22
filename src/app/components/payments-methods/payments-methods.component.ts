@@ -57,9 +57,8 @@ export class PaymentsMethodsComponent implements OnInit {
   onSubmit(): void {
     this.isShow = true;
     this._messageService.clear();
-    let isValidated = this.validateData();
 
-    if (isValidated) {
+    if (this.validateData()) {
       this.splitNumber();
       this.prepareItemsData();
       let checkout = {
@@ -129,6 +128,15 @@ export class PaymentsMethodsComponent implements OnInit {
                   severity: "error",
                   summary: "E-mail inválido",
                   detail: "Verifique se preencheu corretamente o seu e-mail.",
+                });
+              }
+            } else if (errorBody.error == "field_cannot_be_empty") {
+              if (errorBody.parameter_name == "items[0].unit_amount") {
+                this._messageService.add({
+                  severity: "error",
+                  summary: "Valor inválido",
+                  detail:
+                    "Verifique se preencheu corretamente o valor a ser pago.",
                 });
               }
             }
