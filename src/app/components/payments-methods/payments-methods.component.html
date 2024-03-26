@@ -65,7 +65,7 @@
     </p-card>
   </div>
 </div>
-<div id="payments-contents" class="mt-5">
+<div id="payments-contents" class="mt-5" *ngIf="typeProduct != ''">
   <div class="text-left">
     <p-messages></p-messages>
   </div>
@@ -131,7 +131,7 @@
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="typeProduct != ''">
+  <div class="row">
     <div class="col-md-12 col-dm-12">
       <ng-container *ngIf="typeProduct == 'cota10'; else productValue">
         <div class="flex flex-column gap-2">
