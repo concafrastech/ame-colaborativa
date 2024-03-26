@@ -20,6 +20,7 @@ export class PaymentsMethodsComponent implements OnInit {
   quantity: number;
   isShow: boolean;
   isValidTaxId: boolean;
+  isValidEmail: boolean;
 
   constructor(
     private _checkoutsService: CheckoutsService,
@@ -31,6 +32,7 @@ export class PaymentsMethodsComponent implements OnInit {
     this.quantity = 1;
     this.isShow = false;
     this.isValidTaxId = true;
+    this.isValidEmail = true;
     this.customer = {
       name: "",
       email: "",
@@ -59,6 +61,7 @@ export class PaymentsMethodsComponent implements OnInit {
   onSubmit(): void {
     this.isShow = true;
     this._messageService.clear();
+    this.resetInputs();
 
     if (this.validateData()) {
       this.splitNumber();
@@ -127,6 +130,7 @@ export class PaymentsMethodsComponent implements OnInit {
                     "Verifique se preencheu corretamente o seu CPF ou CNPJ.",
                 });
               } else if (errorBody.parameter_name == "customer.email") {
+                this.isValidEmail = false;
                 this._messageService.add({
                   severity: "error",
                   summary: "E-mail inválido",
@@ -165,6 +169,11 @@ export class PaymentsMethodsComponent implements OnInit {
       this.items[0].reference_id = "value";
       this.items[0].name = "Valor Avulso";
     }
+  }
+
+  resetInputs(): void {
+    this.isValidTaxId = true;
+    this.isValidEmail = true;
   }
 
   validateData(): boolean {
@@ -222,7 +231,7 @@ export class PaymentsMethodsComponent implements OnInit {
       this.amount = 195;
     }
 
-    this._viewportScroller.scrollToAnchor("payments-contents");
+    this._viewportScroller.scrollToAnchor("anchor-payments-contents");
   }
 
   splitNumber(): void {
