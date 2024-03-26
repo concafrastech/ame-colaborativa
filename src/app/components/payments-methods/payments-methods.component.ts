@@ -19,6 +19,7 @@ export class PaymentsMethodsComponent implements OnInit {
   amount: number;
   quantity: number;
   isShow: boolean;
+  isValidTaxId: boolean;
 
   constructor(
     private _checkoutsService: CheckoutsService,
@@ -29,6 +30,7 @@ export class PaymentsMethodsComponent implements OnInit {
     this.amount = 195;
     this.quantity = 1;
     this.isShow = false;
+    this.isValidTaxId = true;
     this.customer = {
       name: "",
       email: "",
@@ -117,6 +119,7 @@ export class PaymentsMethodsComponent implements OnInit {
           body.error_messages.forEach((errorBody: any) => {
             if (errorBody.error == "invalid_value") {
               if (errorBody.parameter_name == "customer.tax_id") {
+                this.isValidTaxId = false;
                 this._messageService.add({
                   severity: "error",
                   summary: "CPF ou CNPJ inválido",

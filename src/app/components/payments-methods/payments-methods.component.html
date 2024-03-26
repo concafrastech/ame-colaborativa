@@ -106,6 +106,7 @@
           type="text"
           class="w-100"
           placeholder="Digite aqui..."
+          [ngClass]="this.isValidTaxId ? '' : 'ng-invalid ng-dirty'"
           [(ngModel)]="this.customer.tax_id"
           pInputText
         />
