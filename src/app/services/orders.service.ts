@@ -6,18 +6,22 @@ import { Observable } from "rxjs";
 @Injectable()
 export class OrdersService {
   apiFunctions: string;
+  isProduction: boolean;
 
   constructor(private _http: HttpClient) {
+    this.isProduction = environment.production;
     this.apiFunctions = environment.apiFunctions;
   }
 
   createOrder(order: any): Observable<any> {
-    console.log(order);
-
+    let body = {
+      isProduction: this.isProduction,
+      order,
+    };
     let headers = {
       "Content-Type": "application/json",
     };
 
-    return this._http.post(`${this.apiFunctions}/orders`, order, { headers });
+    return this._http.post(`${this.apiFunctions}/orders`, body, { headers });
   }
 }

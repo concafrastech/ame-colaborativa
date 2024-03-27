@@ -14,6 +14,7 @@ import { FieldsetModule } from "primeng/fieldset";
 import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
 import { CardModule } from "primeng/card";
+import { DialogModule } from "primeng/dialog";
 
 import { HomeComponent } from "./pages/home/home.component";
 import { PaymentsMethodsComponent } from "./components/payments-methods/payments-methods.component";
@@ -33,6 +34,7 @@ import { PaymentsMethodsComponent } from "./components/payments-methods/payments
     RippleModule,
     MessagesModule,
     CardModule,
+    DialogModule,
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent],

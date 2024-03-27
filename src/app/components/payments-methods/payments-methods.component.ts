@@ -14,25 +14,36 @@ import { ViewportScroller } from "@angular/common";
 })
 export class PaymentsMethodsComponent implements OnInit {
   typeProduct: string;
+  typePayment: string;
   customer: Customer;
   items: any[];
   amount: number;
   quantity: number;
+  totalAmount: number;
+  srcImg: string;
   isShow: boolean;
   isValidTaxId: boolean;
   isValidEmail: boolean;
+  isVisibleTypePayment: boolean;
+  isVisiblePixQrCode: boolean;
 
   constructor(
     private _checkoutsService: CheckoutsService,
+    private _ordersService: OrdersService,
     private _messageService: MessageService,
     private _viewportScroller: ViewportScroller,
   ) {
     this.typeProduct = "";
+    this.typePayment = "";
     this.amount = 195;
     this.quantity = 1;
+    this.totalAmount = 0;
+    this.srcImg = "";
     this.isShow = false;
     this.isValidTaxId = true;
     this.isValidEmail = true;
+    this.isVisibleTypePayment = false;
+    this.isVisiblePixQrCode = false;
     this.customer = {
       name: "",
       email: "",
@@ -58,7 +69,8 @@ export class PaymentsMethodsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onSubmit(): void {
+  onSubmit(typePayment: any): void {
+    this.typePayment = typePayment;
     this.isShow = true;
     this._messageService.clear();
     this.resetInputs();
@@ -66,42 +78,38 @@ export class PaymentsMethodsComponent implements OnInit {
     if (this.validateData()) {
       this.splitNumber();
       this.prepareItemsData();
-      let checkout = {
-        reference_id: uid(),
-        customer: this.customer,
-        items: this.items,
-        additional_amount: 0,
-        discount_amount: 0,
-        payment_methods: [
-          {
-            type: "credit_card",
-            brands: ["mastercard", "visa"],
-          },
-          {
-            type: "PIX",
-          },
-          {
-            type: "BOLETO",
-          },
-        ],
-        payment_methods_configs: [
-          {
-            type: "credit_card",
-            brands: ["mastercard", "visa"],
-            config_options: [
-              {
-                option: "installments_limit",
-                value: "3",
-              },
-            ],
-          },
-        ],
-        redirect_url: "https://concafras-ame.web.app/",
-        return_url: "https://concafras-ame.web.app/",
-        notification_urls: ["https://concafras-ame.web.app/"],
-      };
+      let body = this.setBody();
 
-      this._checkoutsService.createCheckout(checkout).subscribe({
+      this.executeService(body);
+    } else {
+      this.isShow = false;
+    }
+  }
+
+  executeService(body: any) {
+    if (this.typePayment == "pix") {
+      this._ordersService.createOrder(body).subscribe({
+        next: (response: any) => {
+          let data = JSON.parse(response.data);
+          data.qr_codes.forEach((qrcode: any) => {
+            qrcode.links.forEach((link: any) => {
+              if (link.rel == "QRCODE.PNG") {
+                this.srcImg = link.href;
+              }
+              this.isShow = false;
+            });
+          });
+          this.isShow = false;
+          this.isVisibleTypePayment = false;
+          this.isVisiblePixQrCode = true;
+        },
+        error: (response: any) => {
+          this.showErrors(response);
+          this.isShow = false;
+        },
+      });
+    } else {
+      this._checkoutsService.createCheckout(body).subscribe({
         next: (response: any) => {
           let data = JSON.parse(response.data);
           data.links.forEach((link: any) => {
@@ -116,51 +124,49 @@ export class PaymentsMethodsComponent implements OnInit {
           });
         },
         error: (response: any) => {
-          let body = JSON.parse(response.error.data);
-          this.customer.phones[0].number = "";
-
-          body.error_messages.forEach((errorBody: any) => {
-            if (errorBody.error == "invalid_value") {
-              if (errorBody.parameter_name == "customer.tax_id") {
-                this.isValidTaxId = false;
-                this._messageService.add({
-                  severity: "error",
-                  summary: "CPF ou CNPJ inválido",
-                  detail:
-                    "Verifique se preencheu corretamente o seu CPF ou CNPJ.",
-                });
-              } else if (errorBody.parameter_name == "customer.email") {
-                this.isValidEmail = false;
-                this._messageService.add({
-                  severity: "error",
-                  summary: "E-mail inválido",
-                  detail: "Verifique se preencheu corretamente o seu e-mail.",
-                });
-              }
-            } else if (errorBody.error == "field_cannot_be_empty") {
-              if (errorBody.parameter_name == "items[0].unit_amount") {
-                this._messageService.add({
-                  severity: "error",
-                  summary: "Valor inválido",
-                  detail:
-                    "Verifique se preencheu corretamente o valor a ser pago.",
-                });
-              }
-            }
-          });
-
+          this.showErrors(response);
           this.isShow = false;
         },
       });
-    } else {
-      this.isShow = false;
     }
+  }
+
+  showErrors(response: any) {
+    let body = JSON.parse(response.error.data);
+    this.customer.phones[0].number = "";
+    this.isVisibleTypePayment = false;
+    this.isVisiblePixQrCode = false;
+
+    body.error_messages.forEach((errorBody: any) => {
+      if (errorBody.parameter_name == "customer.tax_id") {
+        this.isValidTaxId = false;
+        this._messageService.add({
+          severity: "error",
+          summary: "CPF ou CNPJ inválido",
+          detail: "Verifique se preencheu corretamente o seu CPF ou CNPJ.",
+        });
+      } else if (errorBody.parameter_name == "customer.email") {
+        this.isValidEmail = false;
+        this._messageService.add({
+          severity: "error",
+          summary: "E-mail inválido",
+          detail: "Verifique se preencheu corretamente o seu e-mail.",
+        });
+      } else if (errorBody.parameter_name == "items[0].unit_amount") {
+        this._messageService.add({
+          severity: "error",
+          summary: "Valor inválido",
+          detail: "Verifique se preencheu corretamente o valor a ser pago.",
+        });
+      }
+    });
   }
 
   prepareItemsData() {
     this.items[0].unit_amount = this.amount * 100;
     this.items[0].quantity = this.typeProduct == "cota10" ? this.quantity : 1;
     this.customer.email = this.customer.email.trim();
+    this.totalAmount = this.items[0].unit_amount * this.items[0].quantity;
 
     if (this.typeProduct == "cota10") {
       this.items[0].reference_id = "cota_10";
@@ -220,6 +226,54 @@ export class PaymentsMethodsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  setBody() {
+    return this.typePayment == "pix"
+      ? {
+          reference_id: uid(),
+          customer: this.customer,
+          items: this.items,
+          qr_codes: [
+            {
+              amount: {
+                value: this.totalAmount,
+              },
+            },
+          ],
+          notification_urls: ["https://concafras-ame.web.app/"],
+        }
+      : {
+          reference_id: uid(),
+          customer: this.customer,
+          items: this.items,
+          additional_amount: 0,
+          discount_amount: 0,
+          payment_methods: [
+            {
+              type: "credit_card",
+              brands: ["mastercard", "visa"],
+            },
+            {
+              type: "BOLETO",
+            },
+          ],
+          payment_methods_configs: [
+            {
+              type: "credit_card",
+              brands: ["mastercard", "visa"],
+              config_options: [
+                {
+                  option: "installments_limit",
+                  value: "3",
+                },
+              ],
+            },
+          ],
+          redirect_url: "https://concafras-ame.web.app/",
+          return_url: "https://concafras-ame.web.app/",
+          notification_urls: ["https://concafras-ame.web.app/"],
+        };
   }
 
   setTypeProduct(value: string): void {
