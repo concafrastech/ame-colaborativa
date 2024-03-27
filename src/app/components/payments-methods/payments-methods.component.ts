@@ -104,7 +104,8 @@ export class PaymentsMethodsComponent implements OnInit {
           this.isVisiblePixQrCode = true;
         },
         error: (response: any) => {
-          console.log(response);
+          this.showErrors(response);
+          this.isShow = false;
         },
       });
     } else {
@@ -123,43 +124,42 @@ export class PaymentsMethodsComponent implements OnInit {
           });
         },
         error: (response: any) => {
-          let body = JSON.parse(response.error.data);
-          this.customer.phones[0].number = "";
-
-          body.error_messages.forEach((errorBody: any) => {
-            if (errorBody.error == "invalid_value") {
-              if (errorBody.parameter_name == "customer.tax_id") {
-                this.isValidTaxId = false;
-                this._messageService.add({
-                  severity: "error",
-                  summary: "CPF ou CNPJ inválido",
-                  detail:
-                    "Verifique se preencheu corretamente o seu CPF ou CNPJ.",
-                });
-              } else if (errorBody.parameter_name == "customer.email") {
-                this.isValidEmail = false;
-                this._messageService.add({
-                  severity: "error",
-                  summary: "E-mail inválido",
-                  detail: "Verifique se preencheu corretamente o seu e-mail.",
-                });
-              }
-            } else if (errorBody.error == "field_cannot_be_empty") {
-              if (errorBody.parameter_name == "items[0].unit_amount") {
-                this._messageService.add({
-                  severity: "error",
-                  summary: "Valor inválido",
-                  detail:
-                    "Verifique se preencheu corretamente o valor a ser pago.",
-                });
-              }
-            }
-          });
-
+          this.showErrors(response);
           this.isShow = false;
         },
       });
     }
+  }
+
+  showErrors(response: any) {
+    let body = JSON.parse(response.error.data);
+    this.customer.phones[0].number = "";
+    this.isVisibleTypePayment = false;
+    this.isVisiblePixQrCode = false;
+
+    body.error_messages.forEach((errorBody: any) => {
+      if (errorBody.parameter_name == "customer.tax_id") {
+        this.isValidTaxId = false;
+        this._messageService.add({
+          severity: "error",
+          summary: "CPF ou CNPJ inválido",
+          detail: "Verifique se preencheu corretamente o seu CPF ou CNPJ.",
+        });
+      } else if (errorBody.parameter_name == "customer.email") {
+        this.isValidEmail = false;
+        this._messageService.add({
+          severity: "error",
+          summary: "E-mail inválido",
+          detail: "Verifique se preencheu corretamente o seu e-mail.",
+        });
+      } else if (errorBody.parameter_name == "items[0].unit_amount") {
+        this._messageService.add({
+          severity: "error",
+          summary: "Valor inválido",
+          detail: "Verifique se preencheu corretamente o valor a ser pago.",
+        });
+      }
+    });
   }
 
   prepareItemsData() {
