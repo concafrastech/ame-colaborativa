@@ -15,6 +15,7 @@ import { ViewportScroller } from "@angular/common";
 export class PaymentsMethodsComponent implements OnInit {
   typeProduct: string;
   typePayment: string;
+  typeForm: string;
   customer: Customer;
   items: any[];
   amount: number;
@@ -35,6 +36,7 @@ export class PaymentsMethodsComponent implements OnInit {
   ) {
     this.typeProduct = "";
     this.typePayment = "";
+    this.typeForm = "";
     this.amount = 195;
     this.quantity = 1;
     this.totalAmount = 0;
@@ -274,6 +276,9 @@ export class PaymentsMethodsComponent implements OnInit {
           return_url: "https://concafras-ame.web.app/",
           notification_urls: ["https://concafras-ame.web.app/"],
         };
+  }
+  setTypeForm(value: string) {
+    this.typeForm = value;
   }
 
   setTypeProduct(value: string): void {
