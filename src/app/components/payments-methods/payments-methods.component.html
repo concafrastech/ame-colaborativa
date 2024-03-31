@@ -4,7 +4,7 @@
     <p-card
       header="Cota 10"
       styleClass="text-color-green"
-      [style]="{ width: '360px', 'background-color': '#E4B35BFF' }"
+      [style]="{ width: '360px', 'background-color': 'var(--orange)' }"
       [ngStyle]="
         typeProduct == 'cota10'
           ? { opacity: 1 }
@@ -27,7 +27,10 @@
           label="Quero ajudar"
           icon="pi pi-check"
           styleClass="w-100"
-          [style]="{ 'background-color': '#51725f', 'border-color': '#51725f' }"
+          [style]="{
+            'background-color': 'var(--green)',
+            'border-color': 'var(--green)'
+          }"
           (click)="setTypeProduct('cota10')"
         ></p-button>
       </ng-template>
@@ -35,7 +38,7 @@
     <p-card
       header="Valor avulso"
       styleClass="text-color-orange"
-      [style]="{ width: '360px', 'background-color': '#51725f' }"
+      [style]="{ width: '360px', 'background-color': 'var(--green)' }"
       [ngStyle]="
         typeProduct == 'value'
           ? { opacity: 1 }
@@ -58,7 +61,10 @@
           label="Quero ajudar"
           icon="pi pi-check"
           styleClass="w-100"
-          [style]="{ 'background-color': '#e4b35b', 'border-color': '#e4b35b' }"
+          [style]="{
+            'background-color': 'var(--orange)',
+            'border-color': 'var(--orange)'
+          }"
           (click)="setTypeProduct('value')"
         ></p-button>
       </ng-template>
@@ -71,114 +77,170 @@
       <p-messages></p-messages>
     </div>
     <div class="row">
-      <div class="col-md-12 col-dm-12">
-        <div class="flex flex-column gap-2">
-          <label htmlFor="fullnameCustomer">Nome completo</label>
-          <input
-            id="fullnameCustomer"
-            type="text"
-            class="w-100"
-            placeholder="Digite aqui..."
-            [(ngModel)]="this.customer.name"
-            pInputText
-          />
-        </div>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-md-6 col-sm-12">
-        <div class="flex flex-column gap-2">
-          <label htmlFor="emailCustomer">E-mail</label>
-          <input
-            id="emailCustomer"
-            type="email"
-            class="w-100"
-            placeholder="Digite aqui..."
-            [ngClass]="this.isValidEmail ? '' : 'ng-invalid ng-dirty'"
-            [(ngModel)]="this.customer.email"
-            pInputText
-          />
-        </div>
+        <p-button
+          label="PagSeguro (Crédito, boleto ou PIX)"
+          icon="pi pi-check"
+          styleClass="w-100"
+          [style]="{
+            'background-color': 'transparent',
+            color: 'var(--green)',
+            'border-color': 'var(--green)'
+          }"
+          [ngStyle]="
+            typeForm == 'checkout'
+              ? { opacity: 1 }
+              : typeForm == ''
+                ? { opacity: 1 }
+                : { opacity: 0.2 }
+          "
+          (click)="setTypeForm('checkout')"
+        ></p-button>
       </div>
       <div class="col-md-6 col-sm-12">
-        <div class="flex flex-column gap-2">
-          <label htmlFor="taxIdCustomer"> CPF ou CNPJ </label>
-          <input
-            id="taxIdCustomer"
-            type="text"
-            class="w-100"
-            placeholder="Digite aqui..."
-            [ngClass]="this.isValidTaxId ? '' : 'ng-invalid ng-dirty'"
-            [(ngModel)]="this.customer.tax_id"
-            pInputText
-          />
-          <small id="taxIdCustomerHelp">
-            Digite o CPF ou CNPJ <b>sem pontução</b>.
-          </small>
-        </div>
+        <p-button
+          label="PIX"
+          icon="pi pi-check"
+          styleClass="w-100"
+          [style]="{
+            'background-color': 'transparent',
+            color: 'var(--green)',
+            'border-color': 'var(--green)'
+          }"
+          [ngStyle]="
+            typeForm == 'pix'
+              ? { opacity: 1 }
+              : typeForm == ''
+                ? { opacity: 1 }
+                : { opacity: 0.2 }
+          "
+          (click)="setTypeForm('pix')"
+        ></p-button>
       </div>
     </div>
-    <div *ngFor="let phone of this.customer.phones; index as i" class="row">
-      <div class="col-md-12 col-sm-12">
-        <div class="flex flex-column gap-2">
-          <label htmlFor="numberPhoneCustomer{{ i }}">Telefone</label>
-          <p-inputMask
-            id="numberPhoneCustomer{{ i }}"
-            type="text"
-            styleClass="w-100"
-            mask="+99 (99) 99999-9999"
-            placeholder="Digite aqui..."
-            [(ngModel)]="phone.number"
-          ></p-inputMask>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 col-dm-12">
-        <ng-container *ngIf="typeProduct == 'cota10'; else productValue">
+    <ng-container *ngIf="typeForm == 'checkout'">
+      <div class="row">
+        <div class="col-md-12 col-dm-12">
           <div class="flex flex-column gap-2">
-            <label htmlFor="productCota10">Quantidade de cotas</label>
+            <label htmlFor="fullnameCustomer">Nome completo</label>
             <input
-              id="productCota10"
-              type="number"
+              id="fullnameCustomer"
+              type="text"
               class="w-100"
               placeholder="Digite aqui..."
-              [(ngModel)]="this.quantity"
+              [(ngModel)]="this.customer.name"
               pInputText
             />
           </div>
-        </ng-container>
-        <ng-template #productValue>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
           <div class="flex flex-column gap-2">
-            <label htmlFor="productValue">Valor avulso</label>
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">R$</span>
+            <label htmlFor="emailCustomer">E-mail</label>
+            <input
+              id="emailCustomer"
+              type="email"
+              class="w-100"
+              placeholder="Digite aqui..."
+              [ngClass]="this.isValidEmail ? '' : 'ng-invalid ng-dirty'"
+              [(ngModel)]="this.customer.email"
+              pInputText
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="flex flex-column gap-2">
+            <label htmlFor="taxIdCustomer"> CPF ou CNPJ </label>
+            <input
+              id="taxIdCustomer"
+              type="text"
+              class="w-100"
+              placeholder="Digite aqui..."
+              [ngClass]="this.isValidTaxId ? '' : 'ng-invalid ng-dirty'"
+              [(ngModel)]="this.customer.tax_id"
+              pInputText
+            />
+            <small id="taxIdCustomerHelp">
+              Digite o CPF ou CNPJ <b>sem pontução</b>.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let phone of this.customer.phones; index as i" class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="flex flex-column gap-2">
+            <label htmlFor="numberPhoneCustomer{{ i }}">Telefone</label>
+            <p-inputMask
+              id="numberPhoneCustomer{{ i }}"
+              type="text"
+              styleClass="w-100"
+              mask="+99 (99) 99999-9999"
+              placeholder="Digite aqui..."
+              [(ngModel)]="phone.number"
+            ></p-inputMask>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-dm-12">
+          <ng-container *ngIf="typeProduct == 'cota10'; else productValue">
+            <div class="flex flex-column gap-2">
+              <label htmlFor="productCota10">Quantidade de cotas</label>
               <input
-                id="productValue"
-                type="text"
+                id="productCota10"
+                type="number"
                 class="w-100"
                 placeholder="Digite aqui..."
-                [(ngModel)]="this.amount"
+                [(ngModel)]="this.quantity"
                 pInputText
               />
-              <span class="p-inputgroup-addon">.00</span>
             </div>
-          </div>
-        </ng-template>
+          </ng-container>
+          <ng-template #productValue>
+            <div class="flex flex-column gap-2">
+              <label htmlFor="productValue">Valor avulso</label>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">R$</span>
+                <input
+                  id="productValue"
+                  type="text"
+                  class="w-100"
+                  placeholder="Digite aqui..."
+                  [(ngModel)]="this.amount"
+                  pInputText
+                />
+                <span class="p-inputgroup-addon">.00</span>
+              </div>
+            </div>
+          </ng-template>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 col-sm-12">
-        <button
-          pButton
-          pRipple
-          label="Finalizar"
-          class="p-button-success w-100"
-          [disabled]="typeProduct == ''"
-          (click)="this.isVisibleTypePayment = true"
-        ></button>
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <button
+            pButton
+            pRipple
+            label="Finalizar"
+            class="p-button-success w-100"
+            [disabled]="typeProduct == ''"
+            (click)="this.isVisibleTypePayment = true"
+          ></button>
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="typeForm == 'pix'">
+      <div class="row justify-content-center">
+        <h3 class="text-center">
+          Escaneie o PIX da AME e pague o valor que quiser!
+        </h3>
+        <img
+          src="/assets/imgs/qrcode_ame_oficial.jpg"
+          alt="QRCode do PIX da AME"
+          style="max-width: 25rem"
+        />
+      </div>
+    </ng-container>
   </div>
 </div>
 <div class="mt-5"></div>
@@ -198,7 +260,10 @@
         label="PIX"
         icon="pi pi-check"
         styleClass="w-100"
-        [style]="{ 'background-color': '#51725f', 'border-color': '#51725f' }"
+        [style]="{
+          'background-color': 'var(--green)',
+          'border-color': 'var(--green)'
+        }"
         (click)="onSubmit('pix')"
       ></p-button>
     </div>
@@ -208,7 +273,10 @@
         label="Cartão de Crédito ou Boleto"
         icon="pi pi-check"
         styleClass="w-100"
-        [style]="{ 'background-color': '#51725f', 'border-color': '#51725f' }"
+        [style]="{
+          'background-color': 'var(--green)',
+          'border-color': 'var(--green)'
+        }"
         (click)="onSubmit('credit')"
       ></p-button>
     </div>
@@ -226,7 +294,7 @@
 >
   <div class="container">
     <div class="row justify-content-center">
-      <img style="max-width: 50rem;" [src]="srcImg" alt="">
+      <img style="max-width: 50rem" [src]="srcImg" alt="" />
     </div>
   </div>
 </p-dialog>
